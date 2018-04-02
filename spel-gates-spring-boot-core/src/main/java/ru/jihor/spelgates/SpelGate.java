@@ -1,11 +1,11 @@
 package ru.jihor.spelgates;
 
 import lombok.Getter;
-import lombok.Setter;
 import org.springframework.beans.factory.BeanInitializationException;
 import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.expression.Expression;
+import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 
 import javax.annotation.PostConstruct;
@@ -57,8 +57,8 @@ public class SpelGate<T> implements BeanNameAware {
         return spelGatesSettings.getExpression(getName());
     }
 
-    public void setExpression(Expression expression) {
-        spelGatesSettings.setExpression(getName(), expression);
+    public void setExpression(String expression) {
+        spelGatesSettings.setExpression(getName(), new SpelExpressionParser().parseExpression(expression));
     }
 
     private StandardEvaluationContext createContext(Object rootObject) {
